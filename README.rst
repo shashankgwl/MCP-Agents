@@ -16,6 +16,7 @@ workbooks to OneDrive.
 * `Unmanaged solution and source <agents/bom-personal-loan/solution/>`_
 * `Application-only sample ZIPs <agents/bom-personal-loan/samples/>`_
 * `Architecture and sequence diagrams <agents/bom-personal-loan/diagrams/>`_
+* `Demo video and GIF <agents/bom-personal-loan/media/>`_
 * `Orchestrator and skill instructions <agents/bom-personal-loan/instructions/>`_
 
 .. image:: agents/bom-personal-loan/diagrams/sequence.png

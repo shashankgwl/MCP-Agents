@@ -1,6 +1,7 @@
 * text=auto eol=lf
 *.zip binary
 *.png binary
+*.mp4 binary
 *.xlsx binary
 *.pdf binary
 *.mmd text eol=lf

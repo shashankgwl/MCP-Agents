@@ -17,6 +17,15 @@ Their lanes in the sequence diagram show responsibilities, not separate services
 .. image:: diagrams/architecture.png
    :alt: Agent-controlled sandbox processing and a separate OneDrive upload boundary.
 
+Demo recording
+--------------
+
+* `Watch or download the MP4 demo <media/bankloan.mp4>`_ (45.61 MB).
+* `View or download the animated GIF <media/bankloan.gif>`_ (8.96 MB).
+
+Both files show the same approximately 76-second demonstration. The GIF has
+no audio and retains the original video resolution.
+
 Components
 ----------
 
@@ -126,6 +135,7 @@ Files in this sample
 * ``samples/``: three individual fictional cases and a three-application batch.
 * ``diagrams/``: architecture and sequence PNGs, Mermaid sources and editable
   Excalidraw sources.
+* ``media/``: MP4 demo recording and its animated GIF conversion.
 * ``scripts/Pack-Solution.ps1``: repack source with the installed PAC CLI.
 * ``checksums.json``: SHA-256 checksums of the sample's distributable files.
 

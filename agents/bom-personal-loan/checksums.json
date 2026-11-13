@@ -1,4 +1,5 @@
 {
+  "README.rst": "3fc5e7d661e1edad3d3459fe482f783e856f7241febf380307aa39b968bddccd",
   "diagrams/architecture.excalidraw": "2c557db1d4d1b57cdeec35e8af5d3701a867bd28716132b69ff1397564f4a843",
   "diagrams/architecture.mmd": "8b6b1282ea89464490938bdc83de79dfd821d513bcefd0f68be68919e4d2d02c",
   "diagrams/architecture.png": "0fcfd088a5b2822b252c7d2b76134ae290f2cc99f87e371383e9a482e7af5996",
@@ -9,7 +10,8 @@
   "instructions/read-loan-pdf-skill.txt": "4bba437280b2afa4cad9ffb6a50f313f8e09981f6d826c698caa3a7e21b93bef",
   "instructions/unzip-applications-skill.txt": "3d03e7e83f3a2e107b84b02a9efe8d3db743db37e582e22b1f9db3e69c4ab4e9",
   "instructions/write-loan-excel-skill.txt": "3c905442507ffb640c04420cd639a0b631e3aad0f1089d2d1a7298f7cdedbf3c",
-  "README.rst": "9d7f482257a662dcaa7cce836a7bac839049e2e46d0f3cd54bcd7b41a4fccd15",
+  "media/bankloan.gif": "0e829e8e469a4ddc104c07e091c71944143686c735f581223cdb507653629534",
+  "media/bankloan.mp4": "a2d71edac968f3cd25d5973ba2503936a692b51d0bbe3f0918083a11782e8d13",
   "samples/01_Mira_One_Loan.zip": "24df0485b4191c52e27d984ae12026e0832d4ce7ca7b764b63479ada6a41e88b",
   "samples/02_Arjun_Two_Loans.zip": "c900103d4ea95cb13126c14e48482697f28d85904d93bb0dd4c3d5c766f70071",
   "samples/03_Leela_Missing_Details.zip": "55cb4818b0d74e52bc24ad4377d83b82eea3e34d9ab2b8bcf228ef9528a98997",
@@ -20,6 +22,10 @@
   "solution/deployment-settings.example.json": "650caeb05c5236fd9aafaf32dce0251c9f3447822d469aa8a7139021d8923712",
   "solution/package-info.json": "692c727cf28c870d538d40be31d494c27f74e03c5c6998d46f217ce716542ecd",
   "solution/source/Assets/botcomponent_workflowset.xml": "e31c2a57c328c18436099304fabc91057529f6126487bfdac33c40c900bc92bd",
+  "solution/source/Other/Customizations.xml": "0e5aa7bbbdd8477825667036d34b3f2a8b1616158a896e022cc98de2bd4a220c",
+  "solution/source/Other/Solution.xml": "b4d49129e6b15eeb836062636ea351f4e5a457b7af21ed8bf68693464c190d07",
+  "solution/source/Workflows/SaveLoanWorkbookToOneDrive-E89934A4-3F95-5B82-A796-3D469525BCBC.json": "a5fd98f5798a1cad1b63a138f8ce47aac1286e47fdd5e75e834f07bd4b213de6",
+  "solution/source/Workflows/SaveLoanWorkbookToOneDrive-E89934A4-3F95-5B82-A796-3D469525BCBC.json.data.xml": "03790d910e6ebfb8f982791295b3c93ddcb62ed329e4120213ccc996da670897",
   "solution/source/botcomponents/cr2da_bompersonalloanagent_MU7nUW.skill.read-loan-pdf-skill/botcomponent.xml": "023c5ad058df19400aece1e36ec0ce7cc6a96ae35282cb1691fbb9039db4cf2f",
   "solution/source/botcomponents/cr2da_bompersonalloanagent_MU7nUW.skill.read-loan-pdf-skill/data": "c1d8a2405981c338e71a5f2ca33285cff70910fcf25a55145f538c1a4a33480f",
   "solution/source/botcomponents/cr2da_bompersonalloanagent_MU7nUW.skill.unzip-applications-skill/botcomponent.xml": "af34867be6a588bb7893b149f29b65312b3db2208d4bc5fddac161b2e7214a86",
@@ -29,9 +35,5 @@
   "solution/source/botcomponents/cr2da_bompersonalloanagent_MU7nUW.tool.UploadFileToOneDrive_sso/botcomponent.xml": "c700088c2a2a47d839fa23e09f6b5b3ca3a0a2036f3617b2aeade8848d334e0e",
   "solution/source/botcomponents/cr2da_bompersonalloanagent_MU7nUW.tool.UploadFileToOneDrive_sso/data": "f01b7ca17eb2ea7022542f71dfa27aab1201c3195d59489f34d0598214bd825a",
   "solution/source/bots/cr2da_bompersonalloanagent_MU7nUW/bot.xml": "c079eaf3c7de989ec6fa89ad2d1ec1bb112ed0aa927cb626bfbfc69b766e1153",
-  "solution/source/bots/cr2da_bompersonalloanagent_MU7nUW/configuration.json": "d4aac9e9df705c597d676ee99e17b1e0c05a26782b18e9fb1f10254425940fd9",
-  "solution/source/Other/Customizations.xml": "0e5aa7bbbdd8477825667036d34b3f2a8b1616158a896e022cc98de2bd4a220c",
-  "solution/source/Other/Solution.xml": "b4d49129e6b15eeb836062636ea351f4e5a457b7af21ed8bf68693464c190d07",
-  "solution/source/Workflows/SaveLoanWorkbookToOneDrive-E89934A4-3F95-5B82-A796-3D469525BCBC.json": "a5fd98f5798a1cad1b63a138f8ce47aac1286e47fdd5e75e834f07bd4b213de6",
-  "solution/source/Workflows/SaveLoanWorkbookToOneDrive-E89934A4-3F95-5B82-A796-3D469525BCBC.json.data.xml": "03790d910e6ebfb8f982791295b3c93ddcb62ed329e4120213ccc996da670897"
+  "solution/source/bots/cr2da_bompersonalloanagent_MU7nUW/configuration.json": "d4aac9e9df705c597d676ee99e17b1e0c05a26782b18e9fb1f10254425940fd9"
 }
