@@ -1,0 +1,11 @@
+<botcomponent schemaname="cr2da_bompersonalloanagent_MU7nUW.skill.write-loan-excel-skill">
+  <componenttype>9</componenttype>
+  <description>Generate and validate one Excel workbook from one application's JSON using the embedded clean template.</description>
+  <iscustomizable>1</iscustomizable>
+  <name>write-loan-excel-skill</name>
+  <parentbotid>
+    <schemaname>cr2da_bompersonalloanagent_MU7nUW</schemaname>
+  </parentbotid>
+  <statecode>0</statecode>
+  <statuscode>1</statuscode>
+</botcomponent>

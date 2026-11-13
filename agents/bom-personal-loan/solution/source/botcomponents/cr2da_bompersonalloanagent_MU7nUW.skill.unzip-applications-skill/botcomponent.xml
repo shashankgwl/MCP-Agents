@@ -1,0 +1,11 @@
+<botcomponent schemaname="cr2da_bompersonalloanagent_MU7nUW.skill.unzip-applications-skill">
+  <componenttype>9</componenttype>
+  <description>Safely unpack a loan-application ZIP in the sandbox and return an ordered per-PDF manifest.</description>
+  <iscustomizable>1</iscustomizable>
+  <name>unzip-applications-skill</name>
+  <parentbotid>
+    <schemaname>cr2da_bompersonalloanagent_MU7nUW</schemaname>
+  </parentbotid>
+  <statecode>0</statecode>
+  <statuscode>1</statuscode>
+</botcomponent>

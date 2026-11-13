@@ -1,0 +1,11 @@
+<botcomponent schemaname="cr2da_bompersonalloanagent_MU7nUW.skill.read-loan-pdf-skill">
+  <componenttype>9</componenttype>
+  <description>Read one Bank of Maharashtra application PDF and save source-grounded JSON for the orchestrator; supporting documents are ignored.</description>
+  <iscustomizable>1</iscustomizable>
+  <name>read-loan-pdf-skill</name>
+  <parentbotid>
+    <schemaname>cr2da_bompersonalloanagent_MU7nUW</schemaname>
+  </parentbotid>
+  <statecode>0</statecode>
+  <statuscode>1</statuscode>
+</botcomponent>

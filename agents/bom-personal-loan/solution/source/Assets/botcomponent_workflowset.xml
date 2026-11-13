@@ -1,0 +1,5 @@
+<botcomponent_workflowset>
+  <botcomponent_workflow botcomponentid.schemaname="cr2da_bompersonalloanagent_MU7nUW.tool.UploadFileToOneDrive_sso" workflowid.workflowid="e89934a4-3f95-5b82-a796-3d469525bcbc">
+    <iscustomizable>1</iscustomizable>
+  </botcomponent_workflow>
+</botcomponent_workflowset>

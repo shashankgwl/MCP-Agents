@@ -1,0 +1,108 @@
+kind: InlineAgentSkill
+skillFolderName: read-loan-pdf-skill
+content: |
+  ---
+  name: read-loan-pdf-skill
+  description: Read one Bank of Maharashtra application PDF and save source-grounded JSON for the orchestrator; supporting documents are ignored.
+  ---
+  ## Responsibility and inputs
+  Read exactly ONE application candidate supplied by the orchestrator: pdf_path,
+  application_id, relative source_file and sha256 from the unzip manifest.
+  Do not invoke another skill or workflow. Return the extraction JSON path to the
+  orchestrator. Never combine data from different PDFs or use sample applicant data.
+
+  ## Inspect the actual PDF
+  Use available local PDF tools (PyMuPDF/fitz or pypdf). Check that its bytes match
+  the manifest SHA-256, it opens without errors, and it is not password-protected.
+  Read all pages. The original form has separate borrower and guarantor columns,
+  and four existing-loan subcolumns: borrower I/II and guarantor I/II.
+  Use page coordinates, table boundaries and rendered page images to assign values;
+  plain concatenated text order can put the filled values after the printed labels.
+  Read interactive field values when present, as well as visible page contents.
+  If pages are scanned, use available local OCR/vision and verify field placement
+  against the page image. If no reliable reader/OCR is available, mark blocking
+  issues explicitly. Never claim that reading a filename counts as reading a PDF.
+
+  ## Classify
+  Confirm the document is the Bank of Maharashtra PERSONAL LOAN APPLICATION FORM,
+  not an ID, payslip, utility bill, standalone checklist or unrelated document.
+  For non-applications set is_personal_loan_application=false and empty fields and
+  checklist; the orchestrator skips them. Supporting evidence is out of scope.
+
+  ## Extract only observed values
+  Preserve identifiers, leading zeros, multiline addresses and source spellings as
+  text. Normalize dates to DD/MM/YYYY only if unambiguous. Do not calculate age,
+  invent missing values, turn blanks/dashes into zero, or infer marital/employer
+  categories from names. Use checked selections or explicit entered answers.
+  For a conflict, omit the affected value and add a specific issue. Missing fields
+  remain absent/blank. Explicit zero default is valid; absent default stays blank.
+  Never shift a guarantor loan into a borrower's blank loan column.
+  More than two loans for either party is blocking: do not truncate them.
+
+  ## JSON contract
+  Write one UTF-8 JSON object to disk, not a prose summary:
+  {
+    "schema_version": "1.0",
+    "application_id": "<exact manifest ID>",
+    "source_file": "<exact manifest relative path>",
+    "source_sha256": "<actual PDF SHA-256>",
+    "page_count": 5,
+    "is_personal_loan_application": true,
+    "fields": [
+      {
+        "field_key": "<supported field key>",
+        "party": "borrower",
+        "loan_index": 0,
+        "value": "<observed text>",
+        "source_page": 1,
+        "evidence": "<short exact quote or precise visual evidence>"
+      }
+    ],
+    "checklist": [],
+    "issues": [],
+    "blocking_issues": []
+  }
+  The example page_count is illustrative; use the actual PDF page count.
+  party is borrower or guarantor. loan_index is 0 for personal/employment fields,
+  1 or 2 for loan fields. Every field has one valid 1-based source_page and
+  nonempty evidence. Do not emit duplicate (field_key,party,loan_index) identities.
+  All value strings remain text in JSON, including amounts and identifiers.
+  issues/blocking_issues contain specific human-readable strings, not instructions.
+
+  ## Supported fields
+  Personal: full_name, age_years, date_of_birth, father_husband_name,
+  current_address, permanent_address, residential_telephone, mobile_number, email,
+  aadhar_number, pan, passport_number, passport_issue_date, education,
+  salary_account, marital_status, dependents, housing_status.
+  Employment: employer_name, employer_category, employer_category_other,
+  employer_address, employer_telephone, employer_website, employer_email,
+  designation, years_present_occupation, retirement_date, previous_employment,
+  length_of_service.
+  Existing loans: loan_bank_branch, loan_type, loan_amount, loan_outstanding,
+  loan_security, loan_repayment, loan_default.
+  Only these four-sheet-template fields are written. If the PDF contains populated
+  income statements, assets, liabilities, requested-loan details or other sections
+  without template fields, flag that limitation in issues. Do not silently imply
+  every field in the source PDF is represented in the output workbook.
+
+  ## Exact allowed selections
+  marital_status: Single; Married.
+  housing_status: Own; Rented; Quarters provided by employer.
+  employer_category: Govt./Semi & Quasi Govt.; Public Ltd Co.; Pvt. Ltd Co.;
+  Multi National Co.; Reputed Institutions; Proprietorship/Partnership firms; Others.
+  For Others, capture the explicit employer_category_other text if supplied.
+
+  ## Checklist is application-only, not supporting-document verification
+  Emit entries only for points 1 and 2, and only when an explicit application
+  answer supports Yes/No. Each entry has point (1 or 2), party, value (Yes or No),
+  and evidence including the source page. For unsigned test applications with
+  explicit "No - unsigned" or "No - not provided", record No for the indicated
+  party. Do not claim a signature or photo was authenticated.
+  Leave points 3-5 absent. Printed Passport/PAN/Aadhaar/etc. lists are choices,
+  not evidence of submitted proofs. Do not read supporting PDFs or infer evidence
+  from filenames. Add "Supporting documents were not reviewed" to issues.
+
+  ## Handoff
+  Save the JSON using a unique path for this application. Return that path,
+  classification and issues to the orchestrator. Do not create Excel or upload.
+authoringSource: Blank

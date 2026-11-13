@@ -1,0 +1,744 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_onedriveforbusiness": {
+        "api": {
+          "name": "shared_onedriveforbusiness"
+        },
+        "connection": {
+          "connectionReferenceLogicalName": "exp_bom_onedrive"
+        },
+        "runtimeSource": "embedded"
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        },
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        }
+      },
+      "triggers": {
+        "manual": {
+          "type": "Request",
+          "kind": "Skills",
+          "inputs": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "text": {
+                  "title": "BatchFolder",
+                  "type": "string",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true,
+                  "description": "Safe batch folder from the unzip manifest."
+                },
+                "file": {
+                  "title": "ExcelFile",
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "contentBytes": {
+                      "type": "string",
+                      "format": "byte"
+                    }
+                  },
+                  "required": [
+                    "name",
+                    "contentBytes"
+                  ],
+                  "x-ms-content-hint": "FILE",
+                  "x-ms-dynamically-added": true,
+                  "description": "Validated XLSX bytes generated in the sandbox, not a ZIP or PDF."
+                }
+              },
+              "required": [
+                "text",
+                "file"
+              ]
+            }
+          },
+          "metadata": {
+            "associatedData": {
+              "graph": {
+                "name": "SaveLoanWorkbookToOneDrive",
+                "nodes": [
+                  {
+                    "id": "start-36abe417-22c3-5d40-b3ac-7d06a7287f70",
+                    "name": "When an agent calls the flow",
+                    "type": "start",
+                    "version": 1,
+                    "position": {
+                      "x": 0,
+                      "y": 0
+                    },
+                    "data": {
+                      "config": {
+                        "triggerType": "connector",
+                        "connector": {
+                          "apiName": "Skills",
+                          "operationName": "When_an_agent_calls_the_flow",
+                          "displayName": "When an agent calls the flow",
+                          "kind": "Skills",
+                          "inputs": {
+                            "schema": {
+                              "type": "object",
+                              "properties": {
+                                "text": {
+                                  "title": "BatchFolder",
+                                  "type": "string",
+                                  "x-ms-content-hint": "TEXT",
+                                  "x-ms-dynamically-added": true,
+                                  "description": "Safe batch folder from the unzip manifest."
+                                },
+                                "file": {
+                                  "title": "ExcelFile",
+                                  "type": "object",
+                                  "properties": {
+                                    "name": {
+                                      "type": "string"
+                                    },
+                                    "contentBytes": {
+                                      "type": "string",
+                                      "format": "byte"
+                                    }
+                                  },
+                                  "required": [
+                                    "name",
+                                    "contentBytes"
+                                  ],
+                                  "x-ms-content-hint": "FILE",
+                                  "x-ms-dynamically-added": true,
+                                  "description": "Validated XLSX bytes generated in the sandbox, not a ZIP or PDF."
+                                }
+                              },
+                              "required": [
+                                "text",
+                                "file"
+                              ]
+                            }
+                          }
+                        }
+                      },
+                      "outcomes": [
+                        {
+                          "id": "default",
+                          "label": "Default",
+                          "outcomeSchema": {
+                            "type": "object",
+                            "properties": {}
+                          }
+                        }
+                      ]
+                    },
+                    "measured": {
+                      "width": 261,
+                      "height": 66
+                    },
+                    "selected": true
+                  },
+                  {
+                    "id": "ifElse-8dec7eb4-2c68-559a-9f6a-9ffca65a37f8",
+                    "name": "Validate upload",
+                    "type": "ifElse",
+                    "version": 1,
+                    "position": {
+                      "x": 320,
+                      "y": 0
+                    },
+                    "data": {
+                      "config": {
+                        "conditions": [
+                          {
+                            "id": "927b7305-644e-56ab-8e41-fde3db1e6349",
+                            "name": "If",
+                            "expression": "{\n  \"and\": [\n    {\n      \"equals\": [\n        \"@and(greater(length(coalesce(triggerBody()?['text'],'')),0),lessOrEquals(length(coalesce(triggerBody()?['text'],'')),100),greater(length(coalesce(triggerBody()?['file']?['name'],'')),5),lessOrEquals(length(coalesce(triggerBody()?['file']?['name'],'')),100),endsWith(toLower(coalesce(triggerBody()?['file']?['name'],'')),'.xlsx'),not(empty(triggerBody()?['file']?['contentBytes'])),not(contains(coalesce(triggerBody()?['text'],''),'/')),not(contains(coalesce(triggerBody()?['text'],''),decodeUriComponent('%5C'))),not(contains(coalesce(triggerBody()?['text'],''),'..')),not(contains(coalesce(triggerBody()?['text'],''),':')),not(contains(coalesce(triggerBody()?['text'],''),'*')),not(contains(coalesce(triggerBody()?['text'],''),'?')),not(contains(coalesce(triggerBody()?['text'],''),decodeUriComponent('%22'))),not(contains(coalesce(triggerBody()?['text'],''),'<')),not(contains(coalesce(triggerBody()?['text'],''),'>')),not(contains(coalesce(triggerBody()?['text'],''),'|')),not(contains(coalesce(triggerBody()?['file']?['name'],''),'/')),not(contains(coalesce(triggerBody()?['file']?['name'],''),decodeUriComponent('%5C'))),not(contains(coalesce(triggerBody()?['file']?['name'],''),'..')),not(contains(coalesce(triggerBody()?['file']?['name'],''),':')),not(contains(coalesce(triggerBody()?['file']?['name'],''),'*')),not(contains(coalesce(triggerBody()?['file']?['name'],''),'?')),not(contains(coalesce(triggerBody()?['file']?['name'],''),decodeUriComponent('%22'))),not(contains(coalesce(triggerBody()?['file']?['name'],''),'<')),not(contains(coalesce(triggerBody()?['file']?['name'],''),'>')),not(contains(coalesce(triggerBody()?['file']?['name'],''),'|')))\",\n        true\n      ]\n    }\n  ]\n}"
+                          }
+                        ]
+                      },
+                      "outcomes": [
+                        {
+                          "id": "condition:927b7305-644e-56ab-8e41-fde3db1e6349",
+                          "label": "If"
+                        },
+                        {
+                          "id": "else",
+                          "label": "Else"
+                        }
+                      ]
+                    },
+                    "measured": {
+                      "width": 240,
+                      "height": 169
+                    },
+                    "selected": false
+                  },
+                  {
+                    "id": "connector-602df6a0-538a-5be3-ae4e-05840133a24f",
+                    "name": "Create workbook file",
+                    "type": "connector",
+                    "version": 1,
+                    "position": {
+                      "x": 640,
+                      "y": -100
+                    },
+                    "data": {
+                      "config": {
+                        "apiName": "shared_onedriveforbusiness",
+                        "operationName": "CreateFile",
+                        "displayName": "OneDrive for Business",
+                        "parameters": {
+                          "folderPath": "@concat('/Documents/BankOfMH/Applications/',triggerBody()?['text'])",
+                          "name": "@triggerBody()?['file/name']",
+                          "body": "@base64ToBinary(triggerBody()?['file']?['contentBytes'])"
+                        },
+                        "connectionName": "shared_onedriveforbusiness",
+                        "operationType": "OpenApiConnection",
+                        "parametersSchema": {
+                          "type": "object",
+                          "properties": {
+                            "folderPath": {
+                              "type": "string",
+                              "title": "Folder Path",
+                              "x-ms-dynamic-tree": {
+                                "settings": {
+                                  "canSelectParentNodes": true,
+                                  "canSelectLeafNodes": false
+                                },
+                                "open": {
+                                  "operationId": "ListAllRootFolders",
+                                  "itemValuePath": "Path",
+                                  "itemTitlePath": "DisplayName",
+                                  "itemFullTitlePath": "Path",
+                                  "itemIsParent": "(IsFolder eq true)"
+                                },
+                                "browse": {
+                                  "operationId": "ListFolder",
+                                  "parameters": {
+                                    "id": {
+                                      "selectedItemValuePath": "Id"
+                                    }
+                                  },
+                                  "itemValuePath": "Path",
+                                  "itemTitlePath": "DisplayName",
+                                  "itemFullTitlePath": "Path",
+                                  "itemIsParent": "(IsFolder eq true)"
+                                }
+                              },
+                              "description": "The unique path of the folder.",
+                              "x-ms-property-name-alias": "folderPath"
+                            },
+                            "name": {
+                              "type": "string",
+                              "title": "File Name",
+                              "description": "The name of the file. Certain characters are disallowed by OneDrive and will be replaced by underscores.",
+                              "x-ms-property-name-alias": "name"
+                            },
+                            "body": {
+                              "type": "string",
+                              "title": "File Content",
+                              "format": "binary",
+                              "description": "The content of the file.",
+                              "x-ms-property-name-alias": "body"
+                            }
+                          },
+                          "required": [
+                            "body",
+                            "folderPath",
+                            "name"
+                          ]
+                        },
+                        "iconUri": "https://static.powerapps.com/resource/ppcr/releases/v1.0.1827/1.0.1827.4902/onedriveforbusiness/icon.png",
+                        "brandColor": "#0078D4"
+                      },
+                      "outcomes": [
+                        {
+                          "id": "default",
+                          "label": "Default",
+                          "outcomeSchema": {
+                            "type": "object",
+                            "properties": {
+                              "body": {
+                                "type": "object",
+                                "properties": {
+                                  "Id": {
+                                    "type": "string",
+                                    "title": "Id",
+                                    "description": "The unique identifier of the file or folder.",
+                                    "x-ms-property-name-alias": "body/Id"
+                                  },
+                                  "Name": {
+                                    "type": "string",
+                                    "title": "Name",
+                                    "description": "The name of the file or folder.",
+                                    "x-ms-property-name-alias": "body/Name"
+                                  },
+                                  "NameNoExt": {
+                                    "type": "string",
+                                    "title": "Name without extension",
+                                    "description": "The name of the file or folder, without the file extension.",
+                                    "x-ms-property-name-alias": "body/NameNoExt"
+                                  },
+                                  "DisplayName": {
+                                    "type": "string",
+                                    "title": "Display name",
+                                    "description": "The display name of the file or folder.",
+                                    "x-ms-property-name-alias": "body/DisplayName"
+                                  },
+                                  "Path": {
+                                    "type": "string",
+                                    "title": "Path",
+                                    "description": "The path of the file or folder.",
+                                    "x-ms-property-name-alias": "body/Path"
+                                  },
+                                  "LastModified": {
+                                    "type": "string",
+                                    "title": "Last modified time",
+                                    "format": "date-time",
+                                    "description": "The date and time the file or folder was last modified.",
+                                    "x-ms-property-name-alias": "body/LastModified"
+                                  },
+                                  "Size": {
+                                    "type": "integer",
+                                    "title": "Size",
+                                    "format": "int64",
+                                    "description": "The file or folder size in bytes.",
+                                    "x-ms-property-name-alias": "body/Size"
+                                  },
+                                  "MediaType": {
+                                    "type": "string",
+                                    "title": "Media type",
+                                    "description": "The media type of the file or folder.",
+                                    "x-ms-property-name-alias": "body/MediaType"
+                                  },
+                                  "IsFolder": {
+                                    "type": "boolean",
+                                    "title": "Is folder?",
+                                    "description": "A boolean value (true, false) to indicate whether or not the blob is a folder.",
+                                    "x-ms-property-name-alias": "body/IsFolder"
+                                  },
+                                  "ETag": {
+                                    "type": "string",
+                                    "title": "ETag",
+                                    "description": "The etag of the file or folder.",
+                                    "x-ms-property-name-alias": "body/ETag"
+                                  },
+                                  "FileLocator": {
+                                    "type": "string",
+                                    "title": "File locator",
+                                    "description": "The file locator of the file or folder.",
+                                    "x-ms-property-name-alias": "body/FileLocator"
+                                  },
+                                  "LastModifiedBy": {
+                                    "type": "string",
+                                    "title": "Last modified by",
+                                    "description": "The user who last modified the file or folder.",
+                                    "x-ms-property-name-alias": "body/LastModifiedBy"
+                                  }
+                                },
+                                "required": [],
+                                "description": "Blob metadata",
+                                "x-ms-property-name-alias": "body"
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "measured": {
+                      "width": 240,
+                      "height": 66
+                    },
+                    "selected": false
+                  },
+                  {
+                    "id": "builtinFunction-fc8582e3-b26b-51f3-93cc-8ea1d34fdf58",
+                    "name": "Respond uploaded",
+                    "type": "builtinFunction",
+                    "version": 1,
+                    "position": {
+                      "x": 960,
+                      "y": -100
+                    },
+                    "data": {
+                      "config": {
+                        "operationId": "response",
+                        "operationName": "response",
+                        "displayName": "Respond to the agent",
+                        "category": "request",
+                        "categoryDisplayName": "Request",
+                        "kind": "Skills",
+                        "parameters": {
+                          "schema": {
+                            "type": "object",
+                            "properties": {
+                              "text": {
+                                "title": "Status",
+                                "type": "string",
+                                "x-ms-content-hint": "TEXT",
+                                "x-ms-dynamically-added": true
+                              },
+                              "text_1": {
+                                "title": "WorkbookPath",
+                                "type": "string",
+                                "x-ms-content-hint": "TEXT",
+                                "x-ms-dynamically-added": true
+                              },
+                              "text_2": {
+                                "title": "ItemId",
+                                "type": "string",
+                                "x-ms-content-hint": "TEXT",
+                                "x-ms-dynamically-added": true
+                              },
+                              "text_3": {
+                                "title": "Message",
+                                "type": "string",
+                                "x-ms-content-hint": "TEXT",
+                                "x-ms-dynamically-added": true
+                              }
+                            },
+                            "required": [
+                              "text",
+                              "text_1",
+                              "text_2",
+                              "text_3"
+                            ]
+                          },
+                          "body": {
+                            "text": "uploaded",
+                            "text_1": "@outputs('connector-602df6a0-538a-5be3-ae4e-05840133a24f')?['body/Path']",
+                            "text_2": "@outputs('connector-602df6a0-538a-5be3-ae4e-05840133a24f')?['body/Id']",
+                            "text_3": "Workbook uploaded to OneDrive."
+                          }
+                        }
+                      },
+                      "outcomes": [
+                        {
+                          "id": "default",
+                          "label": "Default",
+                          "outcomeSchema": {
+                            "type": "object",
+                            "properties": {}
+                          }
+                        }
+                      ]
+                    },
+                    "measured": {
+                      "width": 240,
+                      "height": 66
+                    }
+                  },
+                  {
+                    "id": "builtinFunction-54619ee5-8cad-52d5-a690-9d543b6efe5b",
+                    "name": "Respond invalid input",
+                    "type": "builtinFunction",
+                    "version": 1,
+                    "position": {
+                      "x": 640,
+                      "y": 200
+                    },
+                    "data": {
+                      "config": {
+                        "operationId": "response",
+                        "operationName": "response",
+                        "displayName": "Respond to the agent",
+                        "category": "request",
+                        "categoryDisplayName": "Request",
+                        "kind": "Skills",
+                        "parameters": {
+                          "schema": {
+                            "type": "object",
+                            "properties": {
+                              "text": {
+                                "title": "Status",
+                                "type": "string",
+                                "x-ms-content-hint": "TEXT",
+                                "x-ms-dynamically-added": true
+                              },
+                              "text_1": {
+                                "title": "WorkbookPath",
+                                "type": "string",
+                                "x-ms-content-hint": "TEXT",
+                                "x-ms-dynamically-added": true
+                              },
+                              "text_2": {
+                                "title": "ItemId",
+                                "type": "string",
+                                "x-ms-content-hint": "TEXT",
+                                "x-ms-dynamically-added": true
+                              },
+                              "text_3": {
+                                "title": "Message",
+                                "type": "string",
+                                "x-ms-content-hint": "TEXT",
+                                "x-ms-dynamically-added": true
+                              }
+                            },
+                            "required": [
+                              "text",
+                              "text_1",
+                              "text_2",
+                              "text_3"
+                            ]
+                          },
+                          "body": {
+                            "text": "invalid_input",
+                            "text_1": "",
+                            "text_2": "",
+                            "text_3": "Expected a safe batch folder and a completed XLSX file object."
+                          }
+                        }
+                      },
+                      "outcomes": [
+                        {
+                          "id": "default",
+                          "label": "Default",
+                          "outcomeSchema": {
+                            "type": "object",
+                            "properties": {}
+                          }
+                        }
+                      ]
+                    },
+                    "measured": {
+                      "width": 240,
+                      "height": 66
+                    }
+                  }
+                ],
+                "edges": [
+                  {
+                    "id": "edge-start-36abe417-22c3-5d40-b3ac-7d06a7287f70-ifElse-8dec7eb4-2c68-559a-9f6a-9ffca65a37f8",
+                    "source": "start-36abe417-22c3-5d40-b3ac-7d06a7287f70",
+                    "target": "ifElse-8dec7eb4-2c68-559a-9f6a-9ffca65a37f8"
+                  },
+                  {
+                    "id": "edge-ifElse-8dec7eb4-2c68-559a-9f6a-9ffca65a37f8-connector-602df6a0-538a-5be3-ae4e-05840133a24f",
+                    "source": "ifElse-8dec7eb4-2c68-559a-9f6a-9ffca65a37f8",
+                    "target": "connector-602df6a0-538a-5be3-ae4e-05840133a24f",
+                    "sourceHandle": "condition:927b7305-644e-56ab-8e41-fde3db1e6349"
+                  },
+                  {
+                    "id": "edge-ifElse-8dec7eb4-2c68-559a-9f6a-9ffca65a37f8-builtinFunction-54619ee5-8cad-52d5-a690-9d543b6efe5b",
+                    "source": "ifElse-8dec7eb4-2c68-559a-9f6a-9ffca65a37f8",
+                    "target": "builtinFunction-54619ee5-8cad-52d5-a690-9d543b6efe5b",
+                    "sourceHandle": "else"
+                  },
+                  {
+                    "id": "edge-connector-602df6a0-538a-5be3-ae4e-05840133a24f-builtinFunction-fc8582e3-b26b-51f3-93cc-8ea1d34fdf58",
+                    "source": "connector-602df6a0-538a-5be3-ae4e-05840133a24f",
+                    "target": "builtinFunction-fc8582e3-b26b-51f3-93cc-8ea1d34fdf58"
+                  }
+                ],
+                "connectionReferences": {
+                  "shared_onedriveforbusiness": {
+                    "api": {
+                      "name": "shared_onedriveforbusiness"
+                    },
+                    "connection": {
+                      "connectionReferenceLogicalName": "exp_bom_onedrive"
+                    },
+                    "runtimeSource": "embedded"
+                  }
+                },
+                "parameters": {
+                  "$authentication": {
+                    "type": "SecureObject",
+                    "defaultValue": {}
+                  },
+                  "$connections": {
+                    "type": "Object",
+                    "defaultValue": {}
+                  }
+                }
+              },
+              "nodeActionMapping": {
+                "connector-602df6a0-538a-5be3-ae4e-05840133a24f": [
+                  "Create_workbook_file"
+                ],
+                "builtinFunction-fc8582e3-b26b-51f3-93cc-8ea1d34fdf58": [
+                  "Respond_uploaded"
+                ],
+                "builtinFunction-54619ee5-8cad-52d5-a690-9d543b6efe5b": [
+                  "Respond_invalid_input"
+                ],
+                "ifElse-8dec7eb4-2c68-559a-9f6a-9ffca65a37f8": [
+                  "Validate_upload"
+                ]
+              },
+              "canvasOrientation": "horizontal"
+            }
+          }
+        }
+      },
+      "actions": {
+        "Validate_upload": {
+          "type": "If",
+          "expression": {
+            "and": [
+              {
+                "equals": [
+                  "@and(greater(length(coalesce(triggerBody()?['text'],'')),0),lessOrEquals(length(coalesce(triggerBody()?['text'],'')),100),greater(length(coalesce(triggerBody()?['file']?['name'],'')),5),lessOrEquals(length(coalesce(triggerBody()?['file']?['name'],'')),100),endsWith(toLower(coalesce(triggerBody()?['file']?['name'],'')),'.xlsx'),not(empty(triggerBody()?['file']?['contentBytes'])),not(contains(coalesce(triggerBody()?['text'],''),'/')),not(contains(coalesce(triggerBody()?['text'],''),decodeUriComponent('%5C'))),not(contains(coalesce(triggerBody()?['text'],''),'..')),not(contains(coalesce(triggerBody()?['text'],''),':')),not(contains(coalesce(triggerBody()?['text'],''),'*')),not(contains(coalesce(triggerBody()?['text'],''),'?')),not(contains(coalesce(triggerBody()?['text'],''),decodeUriComponent('%22'))),not(contains(coalesce(triggerBody()?['text'],''),'<')),not(contains(coalesce(triggerBody()?['text'],''),'>')),not(contains(coalesce(triggerBody()?['text'],''),'|')),not(contains(coalesce(triggerBody()?['file']?['name'],''),'/')),not(contains(coalesce(triggerBody()?['file']?['name'],''),decodeUriComponent('%5C'))),not(contains(coalesce(triggerBody()?['file']?['name'],''),'..')),not(contains(coalesce(triggerBody()?['file']?['name'],''),':')),not(contains(coalesce(triggerBody()?['file']?['name'],''),'*')),not(contains(coalesce(triggerBody()?['file']?['name'],''),'?')),not(contains(coalesce(triggerBody()?['file']?['name'],''),decodeUriComponent('%22'))),not(contains(coalesce(triggerBody()?['file']?['name'],''),'<')),not(contains(coalesce(triggerBody()?['file']?['name'],''),'>')),not(contains(coalesce(triggerBody()?['file']?['name'],''),'|')))",
+                  true
+                ]
+              }
+            ]
+          },
+          "actions": {
+            "Create_workbook_file": {
+              "type": "OpenApiConnection",
+              "inputs": {
+                "parameters": {
+                  "folderPath": "@concat('/Documents/BankOfMH/Applications/',triggerBody()?['text'])",
+                  "name": "@triggerBody()?['file/name']",
+                  "body": "@base64ToBinary(triggerBody()?['file']?['contentBytes'])"
+                },
+                "host": {
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_onedriveforbusiness",
+                  "connectionName": "shared_onedriveforbusiness",
+                  "operationId": "CreateFile"
+                }
+              },
+              "metadata": {
+                "description": "Create workbook file",
+                "nodeId": "connector-602df6a0-538a-5be3-ae4e-05840133a24f"
+              }
+            },
+            "Respond_uploaded": {
+              "type": "Response",
+              "kind": "Skills",
+              "inputs": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "text": {
+                      "title": "Status",
+                      "type": "string",
+                      "x-ms-content-hint": "TEXT",
+                      "x-ms-dynamically-added": true
+                    },
+                    "text_1": {
+                      "title": "WorkbookPath",
+                      "type": "string",
+                      "x-ms-content-hint": "TEXT",
+                      "x-ms-dynamically-added": true
+                    },
+                    "text_2": {
+                      "title": "ItemId",
+                      "type": "string",
+                      "x-ms-content-hint": "TEXT",
+                      "x-ms-dynamically-added": true
+                    },
+                    "text_3": {
+                      "title": "Message",
+                      "type": "string",
+                      "x-ms-content-hint": "TEXT",
+                      "x-ms-dynamically-added": true
+                    }
+                  },
+                  "required": [
+                    "text",
+                    "text_1",
+                    "text_2",
+                    "text_3"
+                  ]
+                },
+                "statusCode": 200,
+                "body": {
+                  "text": "uploaded",
+                  "text_1": "@outputs('Create_workbook_file')?['body/Path']",
+                  "text_2": "@outputs('Create_workbook_file')?['body/Id']",
+                  "text_3": "Workbook uploaded to OneDrive."
+                }
+              },
+              "runAfter": {
+                "Create_workbook_file": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "description": "Respond uploaded",
+                "nodeId": "builtinFunction-fc8582e3-b26b-51f3-93cc-8ea1d34fdf58"
+              }
+            }
+          },
+          "else": {
+            "actions": {
+              "Respond_invalid_input": {
+                "type": "Response",
+                "kind": "Skills",
+                "inputs": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "text": {
+                        "title": "Status",
+                        "type": "string",
+                        "x-ms-content-hint": "TEXT",
+                        "x-ms-dynamically-added": true
+                      },
+                      "text_1": {
+                        "title": "WorkbookPath",
+                        "type": "string",
+                        "x-ms-content-hint": "TEXT",
+                        "x-ms-dynamically-added": true
+                      },
+                      "text_2": {
+                        "title": "ItemId",
+                        "type": "string",
+                        "x-ms-content-hint": "TEXT",
+                        "x-ms-dynamically-added": true
+                      },
+                      "text_3": {
+                        "title": "Message",
+                        "type": "string",
+                        "x-ms-content-hint": "TEXT",
+                        "x-ms-dynamically-added": true
+                      }
+                    },
+                    "required": [
+                      "text",
+                      "text_1",
+                      "text_2",
+                      "text_3"
+                    ]
+                  },
+                  "statusCode": 200,
+                  "body": {
+                    "text": "invalid_input",
+                    "text_3": "Expected a safe batch folder and a completed XLSX file object."
+                  }
+                },
+                "metadata": {
+                  "description": "Respond invalid input",
+                  "nodeId": "builtinFunction-54619ee5-8cad-52d5-a690-9d543b6efe5b"
+                }
+              }
+            }
+          },
+          "metadata": {
+            "description": "Validate upload",
+            "nodeId": "ifElse-8dec7eb4-2c68-559a-9f6a-9ffca65a37f8"
+          }
+        }
+      },
+      "outputs": {},
+      "metadata": {
+        "telemetryMetadata": {
+          "creationSource": "WorkflowDesigner",
+          "modifiedSources": "WorkflowDesigner"
+        }
+      }
+    },
+    "templateName": null
+  },
+  "schemaVersion": "1.0.0.0"
+}

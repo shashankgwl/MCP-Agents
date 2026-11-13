@@ -1,0 +1,12 @@
+.mcs/
+**/.mcs/
+__pycache__/
+*.py[cod]
+.env
+.env.*
+!.env.example
+*.log
+deployment-settings.local.json
+**/deployment-settings.local.json
+test-output/
+**/test-output/

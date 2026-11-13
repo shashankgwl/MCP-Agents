@@ -1,0 +1,18 @@
+flowchart LR
+    U["User<br/>Application ZIP"] --> A
+    subgraph GHCP["GHCP harness sandbox"]
+        A["Main orchestrator<br/>Owns all handoffs"]
+        Z["Unzip skill<br/>Safe extraction + manifest"]
+        R["PDF reader skill<br/>One application to JSON"]
+        W["Excel writer skill<br/>Clean template to XLSX"]
+        A -->|"1. Invoke"| Z
+        Z -->|"Manifest"| A
+        A -->|"2. Invoke per PDF"| R
+        R -->|"Fields + page evidence"| A
+        A -->|"3. Invoke per JSON"| W
+        W -->|"Validated workbook"| A
+    end
+    A -->|"4. Each completed XLSX<br/>BatchFolder + name + contentBytes"| F
+    F["Upload-only workflow<br/>Validate + Create file"] --> D[("OneDrive<br/>Batch folder / workbooks")]
+    F -->|"Confirmed path + ID"| A
+    A --> O["Result<br/>Paths + per-file issues"]

@@ -1,0 +1,15 @@
+{
+  "solution": "BOMAgent",
+  "version": "1.0.0.3",
+  "export_date": "2026-11-13",
+  "agent_type": "CLICopilotRecognizer",
+  "model": "gpt-6-1-sol",
+  "connection_reference": "exp_bom_onedrive",
+  "included_workflow": "SaveLoanWorkbookToOneDrive",
+  "excluded_workflow": "UploadFileToOneDrive (legacy standard-processing workflow)",
+  "connection_binding": "Supply a target-environment OneDrive for Business connection at import.",
+  "agent_autopublish": false,
+  "native_designer_review": "Passed after browser repair of validation literal escaping.",
+  "end_to_end_verification": "Not confirmed; user took over runtime testing.",
+  "fresh_environment_import_verification": "Not performed."
+}

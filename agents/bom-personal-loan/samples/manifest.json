@@ -1,0 +1,57 @@
+{
+  "classification": "Fictional test data only; invalid identifiers; no supporting documents.",
+  "fixtures": [
+    {
+      "zip": "01_Mira_One_Loan.zip",
+      "expected_workbooks": 1,
+      "applications": [
+        {
+          "file": "01_Mira_One_Loan.pdf",
+          "pages": 5
+        }
+      ],
+      "sha256": "24df0485b4191c52e27d984ae12026e0832d4ce7ca7b764b63479ada6a41e88b"
+    },
+    {
+      "zip": "02_Arjun_Two_Loans.zip",
+      "expected_workbooks": 1,
+      "applications": [
+        {
+          "file": "02_Arjun_Two_Loans.pdf",
+          "pages": 5
+        }
+      ],
+      "sha256": "c900103d4ea95cb13126c14e48482697f28d85904d93bb0dd4c3d5c766f70071"
+    },
+    {
+      "zip": "03_Leela_Missing_Details.zip",
+      "expected_workbooks": 1,
+      "applications": [
+        {
+          "file": "03_Leela_Missing_Details.pdf",
+          "pages": 5
+        }
+      ],
+      "sha256": "55cb4818b0d74e52bc24ad4377d83b82eea3e34d9ab2b8bcf228ef9528a98997"
+    },
+    {
+      "zip": "04_Batch_Three_Applications.zip",
+      "expected_workbooks": 3,
+      "applications": [
+        {
+          "file": "01_Mira_One_Loan.pdf",
+          "pages": 5
+        },
+        {
+          "file": "02_Arjun_Two_Loans.pdf",
+          "pages": 5
+        },
+        {
+          "file": "03_Leela_Missing_Details.pdf",
+          "pages": 5
+        }
+      ],
+      "sha256": "61a9f2fa0e277991992f846b7c492a3b7f757e84ae461e309419746972608782"
+    }
+  ]
+}

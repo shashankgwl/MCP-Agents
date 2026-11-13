@@ -1,0 +1,16 @@
+{
+  "EnvironmentVariables": [],
+  "ConnectionReferences": [
+    {
+      "LogicalName": "exp_bom_onedrive",
+      "ConnectionId": "",
+      "ConnectorId": "/providers/Microsoft.PowerApps/apis/shared_onedriveforbusiness"
+    }
+  ],
+  "CopilotAgents": [
+    {
+      "AadGroupId": "00000000-0000-0000-0000-000000000000",
+      "Name": "cr2da_bompersonalloanagent_MU7nUW"
+    }
+  ]
+}

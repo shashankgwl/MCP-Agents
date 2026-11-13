@@ -1,0 +1,25 @@
+%%{init: {"theme":"neutral","sequence":{"mirrorActors":false,"actorMargin":18,"width":95,"height":40,"messageMargin":23,"diagramMarginY":8},"themeVariables":{"fontSize":"13px"}}}%%
+sequenceDiagram
+    participant U as User
+    participant A as Orchestrator
+    participant Z as Unzip skill
+    participant R as PDF reader
+    participant E as Excel writer
+    participant F as Upload flow
+    participant D as OneDrive
+    U->>A: Application ZIP
+    A->>Z: Extract ZIP
+    Z-->>A: PDF manifest
+    loop Each application, sequentially
+        A->>R: Read application PDF
+        R-->>A: Fields JSON + evidence
+        A->>E: JSON + clean template
+        E-->>A: Validated XLSX
+    end
+    loop Each completed workbook
+        A->>F: XLSX bytes + batch folder
+        F->>D: Create file
+        D-->>F: Stored path + ID
+        F-->>A: Confirmed upload
+    end
+    A-->>U: Paths + issues
